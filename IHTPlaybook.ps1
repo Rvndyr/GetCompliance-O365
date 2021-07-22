@@ -9,14 +9,21 @@ write-host "Connecting to Exchange online Powershell Session"
 Connect-exopssession -userprincipalname $email 
 write-host "Importing Module MSOnline"
 Import-Module MSOnline
-write-host "Connect to MSOLService (you may see a pop up, please ignore"
+write-host "Connect to MSOLService (you may see a pop up, please ignore)"
 Connect-MSOLService 
 write-host "Connect IPPSSession" 
 Connect-IPPSSession -UserPrincipalName $email -ConnectionUri https://ps.compliance.protection.outlook.com/powershell-liveid/  
  
 $a = $(get-date).AddDays(-2) 
-$complicance_serach_action = Get-ComplianceSearchAction | where { $_.JobStartTime -gt $a } | ft Name, Status, JobStartTime, Runby, Searchname 
-$complicance_serach_action
-New-ComplianceSearchAction -SearchName "yoursearchname" -preview 
-New-ComplianceSearchAction -SearchName "yoursearchname" -Purge -PurgeType SoftDelete  
+$searchName = Get-ComplianceSearchAction | where { $_.JobStartTime -gt $a } 
+$searchName
+$inputNum = Read-host -Prompt "Which one to purge from the above list (eg. type in a NUMBER: 1, 2, 3, etc)"
+
+$searchNameObj = ConvertFrom-Json -InputObject $searchName
+$selectedSearch = $searchNameObj[$inputNum]
+$selectedSearch
+
+
+# New-ComplianceSearchAction -SearchName "yoursearchname" -preview 
+# New-ComplianceSearchAction -SearchName "yoursearchname" -Purge -PurgeType SoftDelete  
  
