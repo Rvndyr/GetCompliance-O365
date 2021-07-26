@@ -46,6 +46,7 @@ if ( $inputNum -eq 4 ) {
 $selectedSearch = $searchNameObj[$inputNum].searchName
 $selectedSearch
  
- 
-# New-ComplianceSearchAction -SearchName $selectedSearch -preview
+
+New-ComplianceSearchAction -SearchName $selectedSearch -preview
+# Uncomment below to run actual purge
 # New-ComplianceSearchAction -SearchName $selectedSearch -Purge -PurgeType SoftDelete 
